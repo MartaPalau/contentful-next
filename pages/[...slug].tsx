@@ -29,7 +29,10 @@ const applicationModeFragment = gql`
   }
 `;
 
-const SeosemPage: NextPage = ({ data }) => {
+const SeosemPage: NextPage = () => {
+  // HOW TO CREATE FOLDER STRUCTURE?? HOW THE FILES ARE CREATED?
+  // DIFFERENTIATE BY UUID FOR UNIQUE HOME PAGES WITH SLUG= "/"
+
   return <div>hola</div>;
 };
 
@@ -49,10 +52,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const {
     seosemPageCollection: { items },
   } = data;
+  
   const paths = items.map((value: any) => {
+    // console.log("value: ", value)
     return {
       params: {
-        slug: value.slug.substring(1).split("/"),
+        slug: value.slug.substring(1).split("/"),// REMOVE FIRST SLASH AND CONVERT INTO AN ARRAY OF STRINGS FOR EACH LEVEL OF SLASHES --> IT NEEDS THIS WAY TO CREATE THE PAGE WITH
       },
     };
   });
@@ -64,6 +69,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params as IParams;
+  console.log("slug: ", slug)
   const parsedSlug = slug.join('/');
 
   try {
@@ -111,3 +117,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export default SeosemPage;
+
